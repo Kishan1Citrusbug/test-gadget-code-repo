@@ -34,6 +34,9 @@ _export(exports, {
     },
     NoTransitionError: function() {
         return NoTransitionError;
+    },
+    GlobalNotSetError: function() {
+        return GlobalNotSetError;
     }
 });
 class GadgetError extends Error {
@@ -141,6 +144,12 @@ class NoSessionForAuthenticationError extends errorClass("GGT_NO_SESSION_FOR_AUT
 class NoTransitionError extends errorClass("GGT_NO_TRANSITION", "Invalid action", {
     statusCode: 422,
     causedByClient: true,
+    causedByUserland: false
+}) {
+}
+class GlobalNotSetError extends errorClass("GGT_GLOBAL_NOT_SET", "Globals not yet set", {
+    statusCode: 500,
+    causedByClient: false,
     causedByUserland: false
 }) {
 }

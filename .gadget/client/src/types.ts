@@ -29,6 +29,9 @@ export type InternalSessionRecord = Scalars["JSONObject"];
 /** Represents one user result record in internal api calls. Returns a JSON blob of all the record's fields. */
 export type InternalUserRecord = Scalars["JSONObject"];
 
+/** Represents one Product result record in internal api calls. Returns a JSON blob of all the record's fields. */
+export type InternalProductRecord = Scalars["JSONObject"];
+
 /** The `Upload` scalar type represents a file upload. */
 export type Upload = any;
 
@@ -156,6 +159,31 @@ export interface UserFilter {
 
 
 
+export interface ProductSort {
+  /** Sort the results by the id field. Defaults to ascending (smallest value first). */
+  id?: SortOrder | null;
+  /** Sort the results by the createdAt field. Defaults to ascending (smallest value first). */
+  createdAt?: SortOrder | null;
+  /** Sort the results by the updatedAt field. Defaults to ascending (smallest value first). */
+  updatedAt?: SortOrder | null;
+  /** Sort the results by the name field. Defaults to ascending (smallest value first). */
+  name?: SortOrder | null;
+};
+
+
+
+export interface ProductFilter {
+  AND?: (ProductFilter | null)[];
+  OR?: (ProductFilter | null)[];
+  NOT?: (ProductFilter | null)[];
+  id?: IDFilter | null;
+  createdAt?: DateTimeFilter | null;
+  updatedAt?: DateTimeFilter | null;
+  name?: StringFilter | null;
+};
+
+
+
 export interface CreateGadgemonInput {
   sprite?: StoredFileInput | null;
   similar?: (Scalars['String'] | null) | null;
@@ -207,6 +235,18 @@ export interface SignOutUserInput {
   googleImageUrl?: (Scalars['String'] | null) | null;
   lastSignedIn?: Date | Scalars['ISO8601DateString'] | null;
   email?: (Scalars['String'] | null) | null;
+};
+
+
+
+export interface CreateProductInput {
+  name?: (Scalars['String'] | null) | null;
+};
+
+
+
+export interface UpdateProductInput {
+  name?: (Scalars['String'] | null) | null;
 };
 
 
@@ -280,6 +320,17 @@ export interface InternalUserInput {
   googleImageUrl?: (Scalars['String'] | null) | null;
   lastSignedIn?: Date | Scalars['ISO8601DateString'] | null;
   email?: (Scalars['String'] | null) | null;
+};
+
+
+
+export interface InternalProductInput {
+  state?: (Scalars['RecordState'] | null) | null;
+  stateHistory?: (Scalars['RecordState'] | null) | null;
+  id?: (Scalars['GadgetID'] | null) | null;
+  createdAt?: Date | Scalars['ISO8601DateString'] | null;
+  updatedAt?: Date | Scalars['ISO8601DateString'] | null;
+  name?: (Scalars['String'] | null) | null;
 };
 
 
@@ -744,6 +795,8 @@ export interface Query {
   sessions: SessionConnection;
   user: (User | null);
   users: UserConnection;
+  Product: (Product | null);
+  Products: ProductConnection;
   internal: (InternalQueries | null);
   currentSession: (Session | null);
 };
@@ -765,6 +818,10 @@ export type AvailableQuerySelection = {
   user?: AvailableUserSelection;
 
   users?: AvailableUserConnectionSelection;
+
+  Product?: AvailableProductSelection;
+
+  Products?: AvailableProductConnectionSelection;
 
   internal?: AvailableInternalQueriesSelection;
 
@@ -1143,6 +1200,88 @@ export type AvailableUserEdgeSelection = {
 
 
 
+export interface Product {
+  __typename: 'Product';
+  /** The globally unique, unchanging identifier for this record. Assigned and managed by Gadget. */
+  id: Scalars['GadgetID'];
+  /** The time at which this record was first created. Set once upon record creation and never changed. Managed by Gadget. */
+  createdAt: Scalars['DateTime'];
+  /** The time at which this record was last changed. Set each time the record is successfully acted upon by an action. Managed by Gadget. */
+  updatedAt: Scalars['DateTime'];
+  name: (Scalars['String'] | null);
+  /** Get all the fields for this record. Useful for not having to list out all the fields you want to retrieve, but slower. */
+  _all: Scalars['JSONObject'];
+};
+
+
+
+export type AvailableProductSelection = {
+
+  __typename?: boolean | null | undefined;
+
+  /** The globally unique, unchanging identifier for this record. Assigned and managed by Gadget. */
+  id?: boolean | null | undefined;
+
+  /** The time at which this record was first created. Set once upon record creation and never changed. Managed by Gadget. */
+  createdAt?: boolean | null | undefined;
+
+  /** The time at which this record was last changed. Set each time the record is successfully acted upon by an action. Managed by Gadget. */
+  updatedAt?: boolean | null | undefined;
+
+  name?: boolean | null | undefined;
+
+  /** Get all the fields for this record. Useful for not having to list out all the fields you want to retrieve, but slower. */
+  _all?: boolean | null | undefined;
+};
+
+
+/** A connection to a list of Product items. */
+export interface ProductConnection {
+  __typename: 'ProductConnection';
+  /** A list of edges. */
+  edges: ProductEdge[];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+};
+
+
+
+export type AvailableProductConnectionSelection = {
+
+  __typename?: boolean | null | undefined;
+
+  /** A list of edges. */
+  edges?: AvailableProductEdgeSelection;
+
+  /** Information to aid in pagination. */
+  pageInfo?: AvailablePageInfoSelection;
+};
+
+
+/** An edge in a Product connection. */
+export interface ProductEdge {
+  __typename: 'ProductEdge';
+  /** The item at the end of the edge */
+  node: Product;
+  /** A cursor for use in pagination */
+  cursor: Scalars['String'];
+};
+
+
+
+export type AvailableProductEdgeSelection = {
+
+  __typename?: boolean | null | undefined;
+
+  /** The item at the end of the edge */
+  node?: AvailableProductSelection;
+
+  /** A cursor for use in pagination */
+  cursor?: boolean | null | undefined;
+};
+
+
+
 export interface InternalQueries {
   __typename: 'InternalQueries';
   gadgemon: (InternalGadgemonRecord | null);
@@ -1151,6 +1290,8 @@ export interface InternalQueries {
   listSession: InternalSessionRecordConnection;
   user: (InternalUserRecord | null);
   listUser: InternalUserRecordConnection;
+  Product: (InternalProductRecord | null);
+  listProduct: InternalProductRecordConnection;
   /** Currently open platform transaction details, or null if no transaction is open */
   currentTransactionDetails: (Scalars['JSONObject'] | null);
 };
@@ -1172,6 +1313,10 @@ export type AvailableInternalQueriesSelection = {
   user?: boolean | null | undefined;
 
   listUser?: AvailableInternalUserRecordConnectionSelection;
+
+  Product?: boolean | null | undefined;
+
+  listProduct?: AvailableInternalProductRecordConnectionSelection;
 
   /** Currently open platform transaction details, or null if no transaction is open */
   currentTransactionDetails?: boolean | null | undefined;
@@ -1316,6 +1461,52 @@ export type AvailableInternalUserRecordEdgeSelection = {
 };
 
 
+/** A connection to a list of InternalProductRecord items. */
+export interface InternalProductRecordConnection {
+  __typename: 'InternalProductRecordConnection';
+  /** A list of edges. */
+  edges: InternalProductRecordEdge[];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+};
+
+
+
+export type AvailableInternalProductRecordConnectionSelection = {
+
+  __typename?: boolean | null | undefined;
+
+  /** A list of edges. */
+  edges?: AvailableInternalProductRecordEdgeSelection;
+
+  /** Information to aid in pagination. */
+  pageInfo?: AvailablePageInfoSelection;
+};
+
+
+/** An edge in a InternalProductRecord connection. */
+export interface InternalProductRecordEdge {
+  __typename: 'InternalProductRecordEdge';
+  /** The item at the end of the edge */
+  node: InternalProductRecord;
+  /** A cursor for use in pagination */
+  cursor: Scalars['String'];
+};
+
+
+
+export type AvailableInternalProductRecordEdgeSelection = {
+
+  __typename?: boolean | null | undefined;
+
+  /** The item at the end of the edge */
+  node?: boolean | null | undefined;
+
+  /** A cursor for use in pagination */
+  cursor?: boolean | null | undefined;
+};
+
+
 /** Represents one of the roles an identity in the system can be entitled to */
 export interface GadgetRole {
   __typename: 'GadgetRole';
@@ -1448,6 +1639,10 @@ export interface Mutation {
   deleteUser: (DeleteUserResult | null);
   bulkDeleteUsers: (BulkDeleteUsersResult | null);
   signOutUser: (SignOutUserResult | null);
+  createProduct: (CreateProductResult | null);
+  updateProduct: (UpdateProductResult | null);
+  deleteProduct: (DeleteProductResult | null);
+  bulkDeleteProducts: (BulkDeleteProductsResult | null);
   internal: (InternalMutations | null);
 };
 
@@ -1472,6 +1667,14 @@ export type AvailableMutationSelection = {
   bulkDeleteUsers?: AvailableBulkDeleteUsersResultSelection;
 
   signOutUser?: AvailableSignOutUserResultSelection;
+
+  createProduct?: AvailableCreateProductResultSelection;
+
+  updateProduct?: AvailableUpdateProductResultSelection;
+
+  deleteProduct?: AvailableDeleteProductResultSelection;
+
+  bulkDeleteProducts?: AvailableBulkDeleteProductsResultSelection;
 
   internal?: AvailableInternalMutationsSelection;
 };
@@ -1642,6 +1845,88 @@ export type AvailableSignOutUserResultSelection = {
 
 
 
+export interface CreateProductResult {
+  __typename: 'CreateProductResult';
+  success: Scalars['Boolean'];
+  errors: ExecutionError[];
+  Product: (Product | null);
+};
+
+
+
+export type AvailableCreateProductResultSelection = {
+
+  __typename?: boolean | null | undefined;
+
+  success?: boolean | null | undefined;
+
+  errors?: AvailableExecutionErrorSelection;
+
+  Product?: AvailableProductSelection;
+};
+
+
+
+export interface UpdateProductResult {
+  __typename: 'UpdateProductResult';
+  success: Scalars['Boolean'];
+  errors: ExecutionError[];
+  Product: (Product | null);
+};
+
+
+
+export type AvailableUpdateProductResultSelection = {
+
+  __typename?: boolean | null | undefined;
+
+  success?: boolean | null | undefined;
+
+  errors?: AvailableExecutionErrorSelection;
+
+  Product?: AvailableProductSelection;
+};
+
+
+
+export interface DeleteProductResult {
+  __typename: 'DeleteProductResult';
+  success: Scalars['Boolean'];
+  errors: ExecutionError[];
+};
+
+
+
+export type AvailableDeleteProductResultSelection = {
+
+  __typename?: boolean | null | undefined;
+
+  success?: boolean | null | undefined;
+
+  errors?: AvailableExecutionErrorSelection;
+};
+
+
+
+export interface BulkDeleteProductsResult {
+  __typename: 'BulkDeleteProductsResult';
+  success: Scalars['Boolean'];
+  errors: ExecutionError[];
+};
+
+
+
+export type AvailableBulkDeleteProductsResultSelection = {
+
+  __typename?: boolean | null | undefined;
+
+  success?: boolean | null | undefined;
+
+  errors?: AvailableExecutionErrorSelection;
+};
+
+
+
 export interface InternalMutations {
   __typename: 'InternalMutations';
   startTransaction: Scalars['String'];
@@ -1672,6 +1957,14 @@ export interface InternalMutations {
   triggerSignUpUser: (SignUpUserResult | null);
   triggerSignInUser: (SignInUserResult | null);
   triggerSignOutUser: (SignOutUserResult | null);
+  createProduct: (InternalCreateProductResult | null);
+  updateProduct: (InternalUpdateProductResult | null);
+  deleteProduct: (InternalDeleteProductResult | null);
+  deleteManyProduct: (InternalDeleteManyProductResult | null);
+  bulkCreateProducts: (InternalBulkCreateProductsResult | null);
+  triggerCreateProduct: (CreateProductResult | null);
+  triggerUpdateProduct: (UpdateProductResult | null);
+  triggerDeleteProduct: (DeleteProductResult | null);
 };
 
 
@@ -1734,6 +2027,22 @@ export type AvailableInternalMutationsSelection = {
   triggerSignInUser?: AvailableSignInUserResultSelection;
 
   triggerSignOutUser?: AvailableSignOutUserResultSelection;
+
+  createProduct?: AvailableInternalCreateProductResultSelection;
+
+  updateProduct?: AvailableInternalUpdateProductResultSelection;
+
+  deleteProduct?: AvailableInternalDeleteProductResultSelection;
+
+  deleteManyProduct?: AvailableInternalDeleteManyProductResultSelection;
+
+  bulkCreateProducts?: AvailableInternalBulkCreateProductsResultSelection;
+
+  triggerCreateProduct?: AvailableCreateProductResultSelection;
+
+  triggerUpdateProduct?: AvailableUpdateProductResultSelection;
+
+  triggerDeleteProduct?: AvailableDeleteProductResultSelection;
 };
 
 
@@ -2122,6 +2431,113 @@ export type AvailableSignInUserResultSelection = {
   errors?: AvailableExecutionErrorSelection;
 
   user?: AvailableUserSelection;
+};
+
+
+
+export interface InternalCreateProductResult {
+  __typename: 'InternalCreateProductResult';
+  success: Scalars['Boolean'];
+  errors: ExecutionError[];
+  Product: (InternalProductRecord | null);
+};
+
+
+
+export type AvailableInternalCreateProductResultSelection = {
+
+  __typename?: boolean | null | undefined;
+
+  success?: boolean | null | undefined;
+
+  errors?: AvailableExecutionErrorSelection;
+
+  Product?: boolean | null | undefined;
+};
+
+
+
+export interface InternalUpdateProductResult {
+  __typename: 'InternalUpdateProductResult';
+  success: Scalars['Boolean'];
+  errors: ExecutionError[];
+  Product: (InternalProductRecord | null);
+};
+
+
+
+export type AvailableInternalUpdateProductResultSelection = {
+
+  __typename?: boolean | null | undefined;
+
+  success?: boolean | null | undefined;
+
+  errors?: AvailableExecutionErrorSelection;
+
+  Product?: boolean | null | undefined;
+};
+
+
+
+export interface InternalDeleteProductResult {
+  __typename: 'InternalDeleteProductResult';
+  success: Scalars['Boolean'];
+  errors: ExecutionError[];
+  Product: (InternalProductRecord | null);
+};
+
+
+
+export type AvailableInternalDeleteProductResultSelection = {
+
+  __typename?: boolean | null | undefined;
+
+  success?: boolean | null | undefined;
+
+  errors?: AvailableExecutionErrorSelection;
+
+  Product?: boolean | null | undefined;
+};
+
+
+
+export interface InternalDeleteManyProductResult {
+  __typename: 'InternalDeleteManyProductResult';
+  success: Scalars['Boolean'];
+  errors: ExecutionError[];
+};
+
+
+
+export type AvailableInternalDeleteManyProductResultSelection = {
+
+  __typename?: boolean | null | undefined;
+
+  success?: boolean | null | undefined;
+
+  errors?: AvailableExecutionErrorSelection;
+};
+
+
+
+export interface InternalBulkCreateProductsResult {
+  __typename: 'InternalBulkCreateProductsResult';
+  success: Scalars['Boolean'];
+  errors: ExecutionError[];
+  Products: (InternalProductRecord | null)[];
+};
+
+
+
+export type AvailableInternalBulkCreateProductsResultSelection = {
+
+  __typename?: boolean | null | undefined;
+
+  success?: boolean | null | undefined;
+
+  errors?: AvailableExecutionErrorSelection;
+
+  Products?: boolean | null | undefined;
 };
 
 

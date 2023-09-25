@@ -26,6 +26,7 @@ var import_api_client_core = require("@gadgetinc/api-client-core");
 var import_Gadgemon = require("./models/Gadgemon.js");
 var import_Session = require("./models/Session.js");
 var import_User = require("./models/User.js");
+var import_Product = require("./models/Product.js");
 var import_CurrentSession = require("./models/CurrentSession.js");
 const productionEnv = "production";
 const developmentEnv = "development";
@@ -93,6 +94,7 @@ class Client {
     this.gadgemon = new import_Gadgemon.GadgemonManager(this.connection);
     this.session = new import_Session.SessionManager(this.connection);
     this.user = new import_User.UserManager(this.connection);
+    this.Product = new import_Product.ProductManager(this.connection);
     this.currentSession = new import_CurrentSession.CurrentSessionManager(this.connection);
     this.internal = {
       gadgemon: new import_api_client_core.InternalModelManager("gadgemon", this.connection, {
@@ -107,6 +109,11 @@ class Client {
       }),
       user: new import_api_client_core.InternalModelManager("user", this.connection, {
         pluralApiIdentifier: "users",
+        // @ts-ignore
+        hasAmbiguousIdentifier: false
+      }),
+      Product: new import_api_client_core.InternalModelManager("Product", this.connection, {
+        pluralApiIdentifier: "Products",
         // @ts-ignore
         hasAmbiguousIdentifier: false
       })

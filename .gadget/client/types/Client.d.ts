@@ -5,11 +5,13 @@ import type { DocumentNode } from 'graphql';
 import { GadgemonManager } from "./models/Gadgemon.js";
 import { SessionManager } from "./models/Session.js";
 import { UserManager } from "./models/User.js";
+import { ProductManager } from "./models/Product.js";
 import { CurrentSessionManager } from "./models/CurrentSession.js";
 type InternalModelManagers = {
     gadgemon: InternalModelManager;
     session: InternalModelManager;
     user: InternalModelManager;
+    Product: InternalModelManager;
 };
 type ClientOptions = Omit<ApiClientOptions, "environment"> & {
     environment?: string;
@@ -22,6 +24,7 @@ export declare class Client implements AnyClient {
     gadgemon: GadgemonManager;
     session: SessionManager;
     user: UserManager;
+    Product: ProductManager;
     currentSession: CurrentSessionManager;
     /**
     * Namespaced object for accessing models via the Gadget internal APIs, which provide lower level and higher privileged operations directly against the database. Useful for maintenance operations like migrations or correcting broken data, and for implementing the high level actions.

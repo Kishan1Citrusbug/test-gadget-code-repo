@@ -1,8 +1,20 @@
 import crypto from "node:crypto";
+import { Config } from "./AppConfigs";
+import { GlobalNotSetError } from "./errors";
 
+/**
+ * Generates a verification url and code
+ * @param {string} [customUrl] - The verifcation url for verifying the user for the app (optional)
+ * @returns {Object} - An object with the url and code properties
+ */
 export const generateVerificationUrl = (customUrl?: string) => {
-  // TODO remove and replace url default with GADGET_APP_URL once it exists in gadget-server
-  if (!customUrl) throw new Error("Missing customUrl");
+  if (!Config.GADGET_APP_URL && !customUrl) {
+    throw new GlobalNotSetError("GADGET_APP_URL is not yet defined");
+  }
+
+  if (!customUrl) {
+    customUrl = Config.GADGET_APP_URL;
+  }
 
   const code = generateVerificationCode();
   const url = new URL(customUrl);
@@ -23,10 +35,19 @@ export const generatePasswordResetCode = (): string => {
   return crypto.randomBytes(16).toString("hex");
 };
 
+/**
+ * Generates a password reset url and code
+ * @param {string} [customUrl] - The password reset url for users to reset their password (optional)
+ * @returns {Object} - An object with the url and code properties
+ */
 export const generatePasswordResetUrl = (customUrl?: string) => {
-  // TODO remove and replace url default with GADGET_APP_URL once it exists in gadget-server
-  if (!customUrl) throw new Error("Missing customUrl");
+  if (!Config.GADGET_APP_URL && !customUrl) {
+    throw new GlobalNotSetError("GADGET_APP_URL is not yet defined");
+  }
 
+  if (!customUrl) {
+    customUrl = Config.GADGET_APP_URL;
+  }
   const code = generatePasswordResetCode();
   const url = new URL(customUrl);
 

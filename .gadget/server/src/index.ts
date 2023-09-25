@@ -8,22 +8,23 @@
 *   \__\_\\__,_|_|\___|_|\_\ |____/ \__\__,_|_|   \__|    \_/  |____/    |_|\___||___/\__|
 *                                                                                         
 *
-* Built for environment `"Development"` at version "3"
+* Built for environment `"Development"` at version "112"
 * Edit this app here: https://"quick-start-v3-test".gadget.dev/edit
 */
 import { FastifyLoggerInstance } from "fastify";
 import type { Client } from "@gadget-client/quick-start-v3-test";
 import type { GadgetMailer } from "./types";
-import type { AppConfigs } from "./AppConfigs";
 export * from "./routes";
 export * from "./types";
 export * from "./AppConfiguration";
 export * from "./AppConfigs";
+export * from "./emails";
 export * from "./AppConnections";
 export * from "./global-actions";
 export * from "./AmbientContext";
 export * from "./state-chart";
 export { InvalidStateTransitionError } from "./errors";
+export * from "./email-templates";
 /**
  * @internal
  */
@@ -31,6 +32,7 @@ import { Globals, actionContextLocalStorage } from "./globals";
 export * from "./models/Gadgemon";
 export * from "./models/Session";
 export * from "./models/User";
+export * from "./models/Product";
 export * from "./effects";
 
 
@@ -42,14 +44,6 @@ let logger: FastifyLoggerInstance;
  * An instance of the Gadget API client that has admin permissions
  */
 let api: Client;
-/**
- * An instance of the Gadget NodeMailer
- */
-let emails: GadgetMailer;
- /**
- * An object containing the app's pre-set config names
- */
-let Config: AppConfigs;
 
 /**
  * This is used internally to set the rootLogger.
@@ -68,28 +62,9 @@ export const setApiClient = (client: Client) => {
   api = client;
 }
 
-/**
- * This is used internally to set the gadget nodemailer Instance
- * @internal
- */
- export const setGadgetNodeMailer = (transporter: any) => {
-  emails = transporter
-}
-
-/**
- * This is used internally to set the apps config names
- * @internal
- */
- export const setAppConfigs = (configs: AppConfigs) => {
-  Config = configs
-}
-
-
 export {
   logger,
-  api,
-  emails,
-  Config
+  api
 }
 
 /**

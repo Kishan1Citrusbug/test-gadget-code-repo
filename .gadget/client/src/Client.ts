@@ -9,12 +9,14 @@ import type {
 import { GadgemonManager } from "./models/Gadgemon.js";
 import { SessionManager } from "./models/Session.js";
 import { UserManager } from "./models/User.js";
+import { ProductManager } from "./models/Product.js";
 import { CurrentSessionManager } from "./models/CurrentSession.js";
 
 type InternalModelManagers = {
   gadgemon: InternalModelManager;
   session: InternalModelManager;
   user: InternalModelManager;
+  Product: InternalModelManager;
 };
 
 type ClientOptions = Omit<ApiClientOptions, "environment"> & { environment?: string };
@@ -43,6 +45,7 @@ export class Client implements AnyClient {
   gadgemon: GadgemonManager;
   session: SessionManager;
   user: UserManager;
+  Product: ProductManager;
   currentSession: CurrentSessionManager;
 
   /**
@@ -106,6 +109,7 @@ export class Client implements AnyClient {
     this.gadgemon = new GadgemonManager(this.connection);
     this.session = new SessionManager(this.connection);
     this.user = new UserManager(this.connection);
+    this.Product = new ProductManager(this.connection);
     this.currentSession = new CurrentSessionManager(this.connection);
 
     this.internal = {
@@ -121,6 +125,11 @@ export class Client implements AnyClient {
       }),
       user: new InternalModelManager("user", this.connection, {
       	pluralApiIdentifier: "users",
+        // @ts-ignore
+	      hasAmbiguousIdentifier: false,
+      }),
+      Product: new InternalModelManager("Product", this.connection, {
+      	pluralApiIdentifier: "Products",
         // @ts-ignore
 	      hasAmbiguousIdentifier: false,
       }),

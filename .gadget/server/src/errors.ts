@@ -153,3 +153,9 @@ export class NoTransitionError extends errorClass("GGT_NO_TRANSITION" as const, 
   causedByClient: true,
   causedByUserland: false,
 }) {}
+
+export class GlobalNotSetError extends errorClass("GGT_GLOBAL_NOT_SET" as const, "Globals not yet set", {
+  statusCode: 500,
+  causedByClient: false,
+  causedByUserland: false,
+}) {}

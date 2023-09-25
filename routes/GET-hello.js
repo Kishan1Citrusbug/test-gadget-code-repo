@@ -10,6 +10,7 @@
 module.exports = async ({ request, reply, api, logger, connections }) => {
   // This route file will respond to an http request -- feel free to edit or change it!
   // For more information on HTTP routes in Gadget applications, see https://docs.gadget.dev/guides/http-routes
-
-  await reply.type("application/json").send({"hello": "world"})
+  console.log(api.Product.findMany, "xyzzzzzzzzzzzzzzzzzzzzzzzzzz")
+  const product = await api.Product.create({name:'tushar'})
+  await reply.type("application/json").send(api.Product.findMany())
 }

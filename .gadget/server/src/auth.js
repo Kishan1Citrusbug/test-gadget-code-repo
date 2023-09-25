@@ -39,9 +39,15 @@ function _nodecrypto() {
     };
     return data;
 }
+const _AppConfigs = require("./AppConfigs");
+const _errors = require("./errors");
 const generateVerificationUrl = (customUrl)=>{
-    // TODO remove and replace url default with GADGET_APP_URL once it exists in gadget-server
-    if (!customUrl) throw new Error("Missing customUrl");
+    if (!_AppConfigs.Config.GADGET_APP_URL && !customUrl) {
+        throw new _errors.GlobalNotSetError("GADGET_APP_URL is not yet defined");
+    }
+    if (!customUrl) {
+        customUrl = _AppConfigs.Config.GADGET_APP_URL;
+    }
     const code = generateVerificationCode();
     const url = new URL(customUrl);
     url.searchParams.append("code", code);
@@ -57,8 +63,12 @@ const generatePasswordResetCode = ()=>{
     return _nodecrypto().default.randomBytes(16).toString("hex");
 };
 const generatePasswordResetUrl = (customUrl)=>{
-    // TODO remove and replace url default with GADGET_APP_URL once it exists in gadget-server
-    if (!customUrl) throw new Error("Missing customUrl");
+    if (!_AppConfigs.Config.GADGET_APP_URL && !customUrl) {
+        throw new _errors.GlobalNotSetError("GADGET_APP_URL is not yet defined");
+    }
+    if (!customUrl) {
+        customUrl = _AppConfigs.Config.GADGET_APP_URL;
+    }
     const code = generatePasswordResetCode();
     const url = new URL(customUrl);
     url.searchParams.append("code", code);

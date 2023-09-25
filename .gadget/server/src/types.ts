@@ -1,7 +1,7 @@
 import type { AnyClient, GadgetRecord } from "@gadgetinc/api-client-core";
 import type { FastifyLoggerInstance } from "fastify";
 import type { AppTenancy, AppTenancyKey } from "./tenancy";
-import {
+import type {
   SMTPTransportConfig,
   SendmailTransportConfig,
   StreamTransportConfig,
@@ -174,6 +174,7 @@ export interface AnyAmbientContext {
   loaders: unknown;
   emails: GadgetMailer;
 }
+
 /** Gadget wrapper for NodeMailer, used to faciliate the sending of emails.*/
 export interface GadgetMailer {
   /** Verifies SMTP configuration */

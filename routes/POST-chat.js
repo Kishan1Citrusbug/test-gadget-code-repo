@@ -20,3 +20,4 @@ module.exports = async ({ request, reply, api, logger, connections }) => {
   await reply.send(openAIResponseStream(stream))
 }
 console.log("change")
+console.log("change")
