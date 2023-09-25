@@ -1,0 +1,29 @@
+{
+  "name": "quick-start-v3-test",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Internal package for Gadget app Gadgemon Quickstart V3 (Development environment)",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@gadget-client/quick-start-v3-test": "link:.gadget/client",
+    "@gadgetinc/auth": "^0.3.1",
+    "@gadgetinc/react": "^0.13.5",
+    "@mui/material": "^5.14.3",
+    "@mui/styles": "^5.14.3",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "@vitejs/plugin-react-swc": "3.2.0",
+    "gadget-server": "link:.gadget/server",
+    "openai": "^4.10.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.6.1",
+    "typescript": "^4.5.3",
+    "vite": "^4.2.1"
+  },
+  "scripts": {
+    "vite:build": "NODE_ENV=production vite build"
+  }
+}
